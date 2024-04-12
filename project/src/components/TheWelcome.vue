@@ -9,6 +9,12 @@ async function getCountries() {
   countries.value = data
 }
 
+
+let { data: countries, error } = await supabase
+  .from('countries')
+  .select('continent')
+
+
 onMounted(() => {
   getCountries()
 })
