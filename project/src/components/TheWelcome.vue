@@ -2,11 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/lib/supabaseClient';
 
-const countries = ref([
-  {id:0, name:'Chandler country'},
-  {id:1, name:'Weihong country'},
-  {id:2, name:'valorant country'},
-])
+const countries = ref({})
 
 async function getCountries() {
   const { data } = await supabase.from('countries').select()
