@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { supabase } from '../supabase'
+import Avatar from './avatar.vue'
 
 const loading = ref(false)
 const email = ref('')
@@ -24,6 +25,7 @@ const handleLogin = async () => {
 </script>
 
 <template>
+    
   <form class="row flex-center flex" @submit.prevent="handleLogin">
     <div class="col-6 form-widget">
       <h1 class="header">Supabase + Vue 3</h1>
