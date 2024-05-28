@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { supabase } from '../supabase'
-import Avatar from './avatar.vue'
 
 const loading = ref(false)
 const email = ref('')

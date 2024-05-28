@@ -1,6 +1,7 @@
 <script setup>
 import { ref, toRefs, watch } from 'vue'
 import { supabase } from '../supabase'
+export { downloadImage } 
 
 const prop = defineProps(['path', 'size'])
 const { path, size } = toRefs(prop)
