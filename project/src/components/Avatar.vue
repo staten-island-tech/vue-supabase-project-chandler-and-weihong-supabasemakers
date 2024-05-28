@@ -48,7 +48,7 @@ watch(path, () => {
   if (path.value) downloadImage()
 })
 
-export { uploadAvatar }
+
 </script>
 
 <template>
