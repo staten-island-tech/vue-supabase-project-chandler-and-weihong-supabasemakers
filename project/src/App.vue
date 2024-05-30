@@ -2,7 +2,6 @@
 import { onMounted, ref } from 'vue'
 import Account from './components/account.vue'
 import Auth from './components/auth.vue'
-import Avatar from './components/avatar.vue'
 import { supabase } from './supabase'
 
 const session = ref()
