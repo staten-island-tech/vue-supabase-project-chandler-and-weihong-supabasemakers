@@ -1,7 +1,7 @@
 <script setup>
 import { ref, toRefs, watch } from 'vue'
 import { supabase } from '../supabase'
-export { downloadImage } 
+ 
 
 const prop = defineProps(['path', 'size'])
 const { path, size } = toRefs(prop)
@@ -17,7 +17,7 @@ const downloadImage = async () => {
     if (error) throw error
     src.value = URL.createObjectURL(data)
   } catch (error) {
-    console.error('Error downloading image: ', error.message)
+    console.error('Error downloading image:', error.message)
   }
 }
 
