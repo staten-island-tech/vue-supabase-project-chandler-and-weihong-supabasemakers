@@ -2,7 +2,6 @@
 import { supabase } from '../supabase'
 import { onMounted, ref, toRefs } from 'vue'
 
-
 const props = defineProps(['session'])
 const { session } = toRefs(props)
 
@@ -74,6 +73,7 @@ async function signOut() {
     loading.value = false
   }
 }
+
 </script>
 
 <template>
@@ -91,9 +91,8 @@ async function signOut() {
       <input id="website" type="url" v-model="website" />
     </div>
     <div>
-    <form class="form-widget" @submit.prevent="updateProfile">
-    <Avatar v-model:path="avatar_url" @upload="updateProfile" size="10" />
-  </form>
+    <div>
+    </div>
 </div>
 
     <div>
