@@ -91,7 +91,7 @@ async function signOut() {
       <input id="website" type="url" v-model="website" />
     </div>
     <div>
-    <div>
+    <div><Avatar v-model:path="avatar_url" @upload="updateProfile" size="10" />
     </div>
 </div>
 
