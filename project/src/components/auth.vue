@@ -8,7 +8,7 @@
         placeholder="Password"
         required
       />
-      <button type="submit">Sign In</button>
+      <button type="submit">Log In</button>
     </form>
   </div>
 </template>
