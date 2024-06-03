@@ -2,8 +2,8 @@
 import { onMounted, ref } from "vue";
 import Account from "./components/account.vue";
 import Auth from "./components/auth.vue";
-import PostForm from "./components/PostForm.vue";
-import PostList from "./components/PostList.vue";
+import Newpost from "./components/newpost.vue";
+import List from "./components/list.vue";
 import { supabase } from "./supabase";
 
 const session = ref(null);
@@ -14,7 +14,7 @@ const fetchPosts = async () => {
     .from("posts")
     .select("*")
     .order("created_at", { ascending: false });
-  if (error) console.error("Error fetching posts:", error);
+  if (error) console.error("error fetching posts:", error);
   else posts.value = data;
 };
 
@@ -36,22 +36,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container" style="padding: 50px 0 100px 0">
+  <div class="container">
     <Account v-if="session" :session="session" />
     <Auth v-else />
-
     <div v-if="session">
-      <h1>Social Media App</h1>
-      <PostForm @new-post="fetchPosts" />
-      <PostList :posts="posts" />
+      <h1>social media thing</h1>
+      <Newpost @new-post="fetchPosts" />
+      <List :posts="posts" />
     </div>
   </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  margin-top: 60px;
-}
-</style>
