@@ -1,22 +1,13 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import Account from "./components/account.vue";
-import Auth from "./components/auth.vue";
 import Newpost from "./components/newpost.vue";
 import List from "./components/list.vue";
 import { supabase } from "./supabase";
+import { useStore } from "./stores/pinia";
 
 const session = ref(null);
 const posts = ref([]);
-
-const fetchPosts = async () => {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .order("created_at", { ascending: false });
-  if (error) console.error("error fetching posts:", error);
-  else posts.value = data;
-};
+const store = useStore();
 
 onMounted(() => {
   supabase.auth.getSession().then(({ data }) => {
@@ -33,10 +24,20 @@ onMounted(() => {
     }
   });
 });
+onMounted(() => {
+  store.fetchUser();
+  supabase.auth.onAuthStateChange((_, _session) => {
+    session.value = _session;
+  });
+});
 </script>
 
 <template>
   <div class="container">
+    <div>
+      <router-link to="/signup">Sign Up</router-link>
+      <router-view></router-view>
+    </div>
     <Account v-if="session" :session="session" />
     <Auth v-else />
     <div v-if="session">

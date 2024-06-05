@@ -28,3 +28,5 @@ const signIn = async () => {
   if (error) console.error("Error signing in:", error.message);
 };
 </script>
+
+<style scoped></style>
