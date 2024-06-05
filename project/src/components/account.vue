@@ -13,7 +13,6 @@ import {email} from "./auth.vue";
 
 const props = defineProps({
   session: Object,
-  email: Object,
 });
 
 const niceName = session.user.email.toString
