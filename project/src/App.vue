@@ -1,13 +1,20 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import Newpost from "./components/newpost.vue";
-import List from "./components/list.vue";
+import { useRouter } from "vue-router";
 import { supabase } from "./supabase";
-import { useStore } from "./stores/pinia";
 
+const router = useRouter();
 const session = ref(null);
 const posts = ref([]);
-const store = useStore();
+
+const fetchPosts = async () => {
+  const { data, error } = await supabase.from("posts").select("*");
+  if (error) {
+    console.error("Error fetching posts:", error.message);
+  } else {
+    posts.value = data;
+  }
+};
 
 onMounted(() => {
   supabase.auth.getSession().then(({ data }) => {
@@ -19,31 +26,25 @@ onMounted(() => {
 
   supabase.auth.onAuthStateChange((_, _session) => {
     session.value = _session;
-    if (_session) {
+    if (session.value) {
       fetchPosts();
+    } else {
+      posts.value = [];
+      router.push("/signin"); // Redirect to sign-in page if the user signs out
     }
-  });
-});
-onMounted(() => {
-  store.fetchUser();
-  supabase.auth.onAuthStateChange((_, _session) => {
-    session.value = _session;
   });
 });
 </script>
 
 <template>
   <div class="container">
-    <div>
+    <nav>
       <router-link to="/signup">Sign Up</router-link>
-      <router-view></router-view>
-    </div>
-    <Account v-if="session" :session="session" />
-    <Auth v-else />
-    <div v-if="session">
-      <h1>social media thing</h1>
-      <Newpost @new-post="fetchPosts" />
-      <List :posts="posts" />
-    </div>
+      <router-link to="/signin">Sign In</router-link>
+      <router-link v-if="session" to="/account">Account</router-link>
+    </nav>
+    <router-view :session="session"></router-view>
   </div>
 </template>
+
+<style scoped></style>

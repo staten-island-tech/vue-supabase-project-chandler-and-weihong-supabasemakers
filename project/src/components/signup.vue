@@ -17,15 +17,16 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { supabase } from "../supabase";
-import { useStore } from "../stores/pinia";
 
+const router = useRouter();
 const email = ref("");
 const password = ref("");
 const errorMessage = ref("");
 
 const signUp = async () => {
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,
   });
@@ -34,6 +35,7 @@ const signUp = async () => {
     errorMessage.value = error.message;
   } else {
     errorMessage.value = "";
+    router.push({ name: "account" });
   }
 };
 </script>
