@@ -44,6 +44,16 @@ onMounted(() => {
       <router-link v-if="session" to="/account">Account</router-link>
     </nav>
     <router-view :session="session"></router-view>
+    <h1>Social Media Thing</h1>
+    <div v-if="session">
+      <h2>Posts</h2>
+      <ul>
+        <li v-for="post in posts" :key="post.id">{{ post.content }}</li>
+      </ul>
+    </div>
+    <div v-else>
+      <p>Please sign in to view and create posts.</p>
+    </div>
   </div>
 </template>
 
