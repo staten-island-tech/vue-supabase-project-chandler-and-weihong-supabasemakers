@@ -1,48 +1,47 @@
+<template>
+  <div class="container">
+    <nav>
+      <router-link to="/signup">Sign Up</router-link>
+      <router-link to="/signin">Sign In</router-link>
+      <router-link v-if="sessionStore.session" to="/account"
+        >Account</router-link
+      >
+    </nav>
+    <h1>social media app</h1>
+    <router-view></router-view>
+    <div v-if="sessionStore.session">
+      <NewPost />
+    </div>
+    <List />
+  </div>
+</template>
+
 <script setup>
-import { onMounted, ref } from "vue";
-import Account from "./components/account.vue";
-import Auth from "./components/auth.vue";
-import Newpost from "./components/newpost.vue";
-import List from "./components/list.vue";
 import { supabase } from "./supabase";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useSessionStore } from "./stores/pinia";
+import NewPost from "./components/newpost.vue";
+import List from "./components/list.vue";
 
-const session = ref(null);
-const posts = ref([]);
-
-const fetchPosts = async () => {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .order("created_at", { ascending: false });
-  if (error) console.error("error fetching posts:", error);
-  else posts.value = data;
-};
+const router = useRouter();
+const sessionStore = useSessionStore();
 
 onMounted(() => {
-  supabase.auth.getSession().then(({ data }) => {
-    session.value = data.session;
-    if (session.value) {
-      fetchPosts();
-    }
-  });
+  sessionStore.fetchSession();
 
-  supabase.auth.onAuthStateChange((_, _session) => {
-    session.value = _session;
-    if (_session) {
-      fetchPosts();
+  supabase.auth.onAuthStateChange((_, session) => {
+    sessionStore.setSession(session);
+    if (!session) {
+      router.push("/signin");
     }
   });
 });
 </script>
 
-<template>
-  <div class="container">
-    <Account v-if="session" :session="session" />
-    <Auth v-else />
-    <div v-if="session">
-      <h1>social media thing</h1>
-      <Newpost @new-post="fetchPosts" />
-      <List :posts="posts" />
-    </div>
-  </div>
-</template>
+<style scoped>
+.container {
+  padding: 50px;
+  text-align: center;
+}
+</style>
