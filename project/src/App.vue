@@ -7,7 +7,7 @@
         >Account</router-link
       >
     </nav>
-    <h1>social media app</h1>
+    <h1>Our Social Media Site</h1>
     <router-view></router-view>
     <div v-if="sessionStore.session">
       <NewPost />
