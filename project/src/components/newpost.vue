@@ -55,14 +55,14 @@ const submit = async () => {
 <style scoped>
 .card {
  width: 254px;
- height: 190px;
+ height: auto;
  border-radius: 20px;
  background: #f5f5f5;
  position: relative;
  padding: 1.8rem;
  border: 2px solid #c3c6ce;
  transition: 0.5s ease-out;
- overflow: visible;
+ overflow: hidden;
 }
 
 .card-details {
@@ -91,10 +91,14 @@ const submit = async () => {
 
 .text-body {
  color: rgb(134, 134, 134);
+ resize: none;
 }
 
 /*Text*/
 .text-title {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5em;
  font-size: 1.5em;
  font-weight: bold;
 }
