@@ -6,7 +6,7 @@ import Account from "../components/Account.vue";
 const routes = [
   { path: "/signup", name: "signup", component: SignUp },
   { path: "/signin", name: "signin", component: SignIn },
-  { path: "/account", name: "account", component: Account, props: true },
+  { path: "/account", name: "Account", component: Account, props: true },
 ];
 
 const router = createRouter({
