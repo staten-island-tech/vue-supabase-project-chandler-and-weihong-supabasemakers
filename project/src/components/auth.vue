@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>Signin Page</p>
     <form @submit.prevent="signIn">
       <input v-model="email" type="email" placeholder="Email" required />
       <input
