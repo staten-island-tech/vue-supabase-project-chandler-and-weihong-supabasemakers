@@ -1,4 +1,5 @@
 <template>
+  <div class="container">
   <div class="card">
     <h2>New Post</h2>
     <form class="card-details" @submit.prevent="submit">
@@ -13,6 +14,7 @@
     </form>
     <p v-if="errorMessage" style="color: red">{{ errorMessage }}</p>
   </div>
+</div>
 </template>
 
 <script setup>
@@ -64,13 +66,21 @@ const submit = async () => {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30vh; 
+  margin:0;
+} 
+
 .card {
  width: 254px;
  height: auto;
  border-radius: 20px;
  background: #f5f5f5;
  position: relative;
- padding: 1.8rem;
+ padding: 1rem;
  border: 2px solid #c3c6ce;
  transition: 0.5s ease-out;
  overflow: hidden;
