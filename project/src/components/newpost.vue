@@ -30,23 +30,34 @@ const submit = async () => {
       throw new Error("Please log in to create posts.");
     }
 
+    const userId = sessionStore.session.user.user_id;
+    console.log("User ID:", userId);
+
     const { data, error } = await supabase.from("posts").insert([
       {
         title: title.value,
         description: description.value,
         created_at: new Date(),
-        id: sessionStore.session.user.id,
+        user_id: userId,
       },
     ]);
 
-    if (error) throw error;
+    if (error) {
+      if (error.message.includes("violates foreign key constraint")) {
+        errorMessage.value = "violates contraints.";
+      } else {
+        errorMessage.value = error.message;
+      }
+      throw error;
+    }
 
     title.value = "";
     description.value = "";
     errorMessage.value = "";
   } catch (error) {
+    console.error(error);
     errorMessage.value =
-      error.message || "An error occurred while creating the post.";
+      errorMessage.value || "An error occurred while creating the post.";
   }
 };
 </script>
