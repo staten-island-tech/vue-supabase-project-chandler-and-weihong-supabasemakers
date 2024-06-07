@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import SignUp from "../components/signup.vue";
 import SignIn from "../components/signin.vue";
-import Account from "../components/account.vue";
+import Account from "../components/Account.vue";
 
 const routes = [
   { path: "/signup", name: "signup", component: SignUp },
