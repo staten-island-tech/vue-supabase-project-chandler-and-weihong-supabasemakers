@@ -1,60 +1,47 @@
-<script setup>
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-import { supabase } from "./supabase";
-
-const router = useRouter();
-const session = ref(null);
-const posts = ref([]);
-
-const fetchPosts = async () => {
-  const { data, error } = await supabase.from("posts").select("*");
-  if (error) {
-    console.error("Error fetching posts:", error.message);
-  } else {
-    posts.value = data;
-  }
-};
-
-onMounted(() => {
-  supabase.auth.getSession().then(({ data }) => {
-    session.value = data.session;
-    if (session.value) {
-      fetchPosts();
-    }
-  });
-
-  supabase.auth.onAuthStateChange((_, _session) => {
-    session.value = _session;
-    if (session.value) {
-      fetchPosts();
-    } else {
-      posts.value = [];
-      router.push("/signin"); // Redirect to sign-in page if the user signs out
-    }
-  });
-});
-</script>
-
 <template>
   <div class="container">
     <nav>
       <router-link to="/signup">Sign Up</router-link>
       <router-link to="/signin">Sign In</router-link>
-      <router-link v-if="session" to="/account">Account</router-link>
+      <router-link v-if="sessionStore.session" to="/account"
+        >Account</router-link
+      >
     </nav>
-    <router-view :session="session"></router-view>
-    <h1>Social Media Thing</h1>
-    <div v-if="session">
-      <h2>Posts</h2>
-      <ul>
-        <li v-for="post in posts" :key="post.id">{{ post.content }}</li>
-      </ul>
+    <h1>social media app</h1>
+    <router-view></router-view>
+    <div v-if="sessionStore.session">
+      <NewPost />
     </div>
-    <div v-else>
-      <p>Please sign in to view and create posts.</p>
-    </div>
+    <List />
   </div>
 </template>
 
-<style scoped></style>
+<script setup>
+import { supabase } from "./supabase";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useSessionStore } from "./stores/pinia";
+import NewPost from "./components/newpost.vue";
+import List from "./components/list.vue";
+
+const router = useRouter();
+const sessionStore = useSessionStore();
+
+onMounted(() => {
+  sessionStore.fetchSession();
+
+  supabase.auth.onAuthStateChange((_, session) => {
+    sessionStore.setSession(session);
+    if (!session) {
+      router.push("/signin");
+    }
+  });
+});
+</script>
+
+<style scoped>
+.container {
+  padding: 50px;
+  text-align: center;
+}
+</style>

@@ -1,20 +1,21 @@
 import { defineStore } from "pinia";
 import { supabase } from "../supabase";
 
-export const useStore = defineStore("main", {
+export const useSessionStore = defineStore("session", {
   state: () => ({
-    user: null,
+    session: null,
   }),
   actions: {
-    async fetchUser() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      this.user = user;
+    async fetchSession() {
+      const { data } = await supabase.auth.getSession();
+      this.session = data.session;
+    },
+    setSession(newSession) {
+      this.session = newSession;
     },
     async signOut() {
       await supabase.auth.signOut();
-      this.user = null;
+      this.session = null;
     },
   },
 });
