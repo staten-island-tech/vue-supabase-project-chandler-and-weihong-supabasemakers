@@ -8,7 +8,6 @@
             <div class="card-details">
               <h3 class="card-title">{{ post.title }}</h3>
               <p class="text-body">{{ post.description }}</p>
-              <p>Posted by:{{ sessionStore.session.user.email }}</p>
               <p>Created at:{{ new Date(post.created_at).toLocaleString() }}</p>
               <button @click="editPost(post)">Edit</button>
               <button @click="confirmDelete(post.id)">Delete</button>
@@ -37,9 +36,7 @@ import { ref, onMounted } from "vue";
 import { supabase } from "../supabase";
 import DeletePost from "./Deletepost.vue";
 import EditPost from "./Editpost.vue";
-import { useSessionStore } from "../stores/pinia";
 
-const sessionStore = useSessionStore();
 const posts = ref([]);
 const showDeleteModal = ref(false);
 const selectedPostId = ref(null);
